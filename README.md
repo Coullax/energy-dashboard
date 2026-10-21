@@ -64,3 +64,7 @@ Sector module tabs demonstrate navigation and category selection using sample va
 ## Verification
 
 JavaScript syntax checked with `node --check dist/app.js`. The included `verify.cjs` checks source/sector aggregation, conversion and rendering of the main role-specific routes without a browser. Browser visual and responsive QA could not be completed because the local browser preview timed out. No claim of tender compliance or production security is made.
+
+## Component design update
+
+The shared analytics layer is in `dist/components.js` and `dist/components.css`. Energy flows now use proportional gradient ribbons with keyboard focus and detail panels; source composition supports doughnut and pie modes. Sector modules support grouped columns and horizontal bars. Trends use an area fill and focusable data points. Building charts use segmented stacks. Tables share aligned numeric columns, source tokens, share meters, totals where applicable and consistent status chips. Forms, filters, tabs, notices and dialogs use the same component styles. Chart information is available through pointer hover and keyboard focus, with native titles retained on key SVG marks.
