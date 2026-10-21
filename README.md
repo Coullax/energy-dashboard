@@ -63,7 +63,7 @@ Sector module tabs demonstrate navigation and category selection using sample va
 
 ## Verification
 
-JavaScript syntax checked with `node --check dist/app.js`. The included `verify.cjs` checks source/sector aggregation, conversion and rendering of the main role-specific routes without a browser. Browser visual and responsive QA could not be completed because the local browser preview timed out. No claim of tender compliance or production security is made.
+JavaScript syntax checked with `node --check dist/app.js`. The included `verify.cjs` checks source/sector aggregation, conversion and rendering of the main role-specific routes without a browser. Hosted desktop browser review confirmed energy flow, pie/doughnut switching, column/bar switching and table rendering, with no captured JavaScript errors. Narrow-device visual QA has not been completed. No claim of tender compliance or production security is made.
 
 ## Component design update
 
