@@ -1,70 +1,84 @@
-# Sri Lanka Energy Balance dashboard concept
+# SLSEA Energy Intelligence - Next.js
 
-Interactive tender mockup for transaction 10055844. Open `dist/index.html` directly in a browser, or serve `dist` with a static HTTP server. No installation or build is required. The source is portable HTML, CSS and JavaScript.
+An interactive Energy Balance dashboard concept based on tender 10055844. This is a React/Next.js rebuild of the earlier static mockup. All statistics are synthetic; all role-based workflows are demonstrations.
 
-All statistics are synthetic. No SLSEA Energy Balance workbooks, official branding assets or official ISIC mapping were supplied. The monogram is a concept mark. This is a frontend demonstration, not a completed tender deliverable or an official SLSEA service.
+## Run locally
 
-## Demonstration walkthrough
+Requires Node.js 22 or later.
 
-1. Open Overview. Change year, source, sector and energy unit. The final consumption flow, mix and trends update together. Try Petroleum + Transport, then Reset.
-2. Switch the energy flow to Table. Sort consumption and hide the share column. Open Energy balance to compare years.
-3. Search “Compare electricity in 2022 and 2024” or “grid emissions”. Search supports structured keyword patterns, not a connected AI service.
-4. Explore Buildings & ISIC. Select a building type and inspect consumption and electricity EUI.
-5. Select Data Provider in the role preview. Open Data submissions and create an electricity submission of 16,200 GWh. Values outside ±20% of that demo baseline trigger a plausibility message; drafts remain possible.
-6. Select Verifier. Open Verification queue, review the new submission and approve it or request a revision with a comment. Inspect the audit trail.
-7. Select Administrator to edit the demo emission factor and inspect the operations requirements.
-8. Use Export data for CSV. Under Reports & exports, select content, preview the report and Print / Save as PDF. A browser pop-up may need to be allowed.
+```sh
+npm ci
+npm run dev
+```
 
-Role selection is UI simulation, not security. Drafts, decisions and parameters are kept only in memory and reset on reload. No data is transmitted to SLSEA or any other organisation.
+Open the URL printed by Next.js. Hash navigation preserves the original prototype links, including /#overview, /#balance, /#buildings, /#submissions, /#review and /#admin.
 
-## Document review and design traceability
+```sh
+npm run typecheck
+npm test
+npm run build
+```
 
-All 11 supplied files were extracted into the adjacent `document-review` folder for review. Only the application source and this guide are included in the hosted mockup; original tender files are not uploaded.
+Next.js static export writes the deployable app to out/. Serve that folder with a static HTTP server. The private Site deploys out/. After building, npm start serves the export on http://127.0.0.1:3000 using the included static preview server. Production SLSEA AWS infrastructure and backend services remain outside this mockup.
 
-| Supplied document | Relevance to this concept |
+## Stack
+
+| Library | Actual use |
 | --- | --- |
-| 1. Application requirements for the award of contracts.docx | Administrative bid requirements; does not define dashboard widgets. Kept outside the portal. |
-| 2. Self Declaration Form.docx | Bidder eligibility declaration; not an energy data submission form. Kept outside the portal. |
-| 3. GTC updated 12.2024.pdf | Contract, confidentiality, rights and design context. Concept uses no actual personal or operational data. |
-| 4.Invitation to Tender-10055844.pdf | Identifies the procurement and deliverable context. No bid is submitted by this mockup. |
-| 5. ToR for Energy Balance Dashboard and Data Management Platform.pdf | Main scope, workflows, historical migration, analytics, reporting, security and operational handover requirements. Sections 2.3 and 3.2 guide the screens and interactive prototype. |
-| 5.1 Annexure 1 to ToR - Specifications.pdf | Binding detailed scope. Sections 1–2 guide the eight analytical areas, Sankey, charts, tables, buildings and emissions. Sections 3–6 guide filtering, submissions, administration and calculation transparency. |
-| 5.2 Annexure 2: Data protection standards | Privacy by design, minimisation, transparency, consent and data rights. No personal records or analytics tracking are used in this concept. |
-| 5.3 Annexure 3: Information security requirements | Governance, access control, logging, backup and encryption requirements reflected as production controls in the admin screen. |
-| 6. Price Schedule for Services - 10055844.xlsx | Milestone 3 identifies prototype and sample dashboards; milestones are not presented as energy metrics. No pricing is added. |
-| 7. Eligibility Criteria for EBD Tender.pdf | Procurement eligibility; outside the portal interface. |
-| 8. Technical evaluation Grid for IT service_EBD.pdf | Concept, methodology, testing/documentation and staff assessment context; mockup supports demonstrating the proposed user experience only. |
+| Next.js App Router, React, TypeScript | Application, prerendering, bundling, typed domain model |
+| Tailwind CSS v4 | Theme tokens, responsive layouts and component utilities |
+| shadcn/ui + Radix UI | Accessible selects, dialogs, tabs, sheets, menus, tooltips, buttons, inputs and tables; editable source in components/ui |
+| Motion | Page transitions, shared sidebar highlight, spring metric counters, animated flow ribbons and bar widths; reduced-motion preference respected |
+| Recharts | Area trends, grouped columns, stacked building charts, pie/doughnut views, responsive containers and hover details |
+| TanStack Table v8 | Category search, sorting, column visibility, pagination and filtered totals |
+| React Hook Form + Zod | Typed submission capture and numeric/required-field validation |
+| Sonner | Success and error notifications |
+| Lucide React | Consistent vector icons |
+| next-themes | Light/dark themes |
+| date-fns | Report date formatting |
+| Prettier | Consistent source formatting |
 
-## What works and what remains
+The lockfile records resolved package versions. Only libraries used by this application are installed.
 
-| Requirement | Mockup coverage | Production work |
-| --- | --- | --- |
-| Eight analytical areas | Energy balance, electricity, petroleum, coal, biomass, economic indicators, emissions, buildings | Complete every prescribed table/chart using the supplied official datasets |
-| Sankey and mix | Proportional source-to-sector diagram, tooltips and circular mix chart | Full supply/transformation/loss balance and hierarchical sunburst |
-| Filter/compare | Year, energy source, sector, units, year comparison, ISIC sample selector, category checkboxes | Geography, organisation, full historical archive, monthly/quarterly data |
-| Tables and exports | Sorting, optional share column, CSV with metadata, printable report | XLSX preserving formatting, PNG/JPEG chart exports, server-generated PDF |
-| Submission workflow | Synthetic records, online form, validation, draft, review, approval/revision/rejection, audit events | Authentication, organisation-scoped permissions, durable records, resubmission/version history, Excel bulk import |
-| Natural-language queries | Structured keyword and year matching | Approved data-backed search coverage and future conversational extensions |
-| Forecast | Optional one-year linear endpoint projection on Overview | Agreed, validated forecasting method and uncertainty disclosures |
-| Calculations | Demonstration aggregation, renewable share, PJ/TJ/ktoe/GWh conversions, editable sample factor | SLSEA-approved engine, densities, exchange rates, source references, versioned approval |
-| Security and privacy | No personal datasets; clear role-simulation label | MFA, RBAC, encryption at rest/in transit, logging, monitoring, penetration tests, retention, data rights |
-| Hosting and handover | Portable static source; private demonstration hosting | SLSEA AWS deployment, database, backups and tested restoration, monitoring, manuals, training and O&M |
-| Performance | Small buildless frontend | Verify mandatory 100 concurrent authenticated active users; dashboard max 5 seconds/target 3; standard reports max 10 seconds; at least 30 years online and 5 years audit retention |
+## Source map
 
-## Data and calculation notes
+- app/: Next.js entry points and theme styles.
+- components/dashboard.tsx: 13 screens, filters, search, reports and demonstration workflows.
+- components/energy-charts.tsx: React charts and animated energy-flow SVG.
+- components/energy-table.tsx: TanStack and shadcn data table.
+- components/ui/: editable shadcn/ui component source.
+- lib/energy.ts: source/sector matrix, conversions, sample datasets, workflow rules and CSV metadata.
+- lib/energy.test.ts: reconciliation, unit-conversion, review guards and export-provenance checks.
+- docs/tender-requirements.md: review and mapping of all 11 supplied documents, plus production gaps.
+- legacy-static/: preserved original prototype; not deployed.
 
-The source-by-sector matrix has a 450 PJ illustrative total in 2024. Rows are petroleum (200), biomass (165), coal (35), hydro (35), solar and wind (15). Columns sum to transport (150), industry (181), households (100), commercial (19). Annual multipliers are 0.85, 0.90, 0.87, 0.94 and 1.00 for 2020–2024. They describe no real historical observations.
+## Walkthrough
 
-Energy conversions: 1 PJ = 1,000 TJ; 1 GWh = 0.0036 PJ; 1 ktoe = 0.041868 PJ. Currency and fuel mass/volume are not interchangeable with energy units. Those conversions require additional rates, dates, densities and assumptions.
+1. Change year, source, sector and unit on Overview. Flow, mix, trends and sector consumption reconcile from the same matrix.
+2. Switch pie/doughnut and columns/bars; toggle the trend projection; select generation categories.
+3. Open Energy balance. Compare years, search/sort the table, hide columns and page results.
+4. Search 'Compare electricity in 2022 and 2024' or 'building energy'. Search uses structured patterns, not an external AI service.
+5. Explore ISIC building consumption and EUI, and grid emissions.
+6. Preview Data Provider. Submit the default 16,200 GWh electricity example, or try a value outside the 20% historical tolerance to trigger a plausibility message. Save or edit a draft.
+7. Preview Verifier. Approve, reject or request a revision with a comment. Preview Data Provider to revise a CEB draft or returned record. Versions increase and decisions appear in the audit trail.
+8. Preview Administrator. Edit the sample emissions coefficient and inspect the planned operations/security controls.
+9. Choose report sections, preview the report, then Print / Save as PDF. CSV downloads include unit, period, filters and source metadata.
+10. Toggle light/dark mode. Motion respects the device's reduced-motion setting.
 
-The Overview projection extends the slope between the first and last synthetic annual observations by one year. The default sample combined margin is 0.520 tCO₂/MWh, calculated as equal weights of illustrative 0.710 operating margin and 0.330 build margin. Changing the demo parameter overrides that example and is logged.
+Drafts, decisions, audit events and the sample coefficient persist in this tab's sessionStorage and reset when the session is cleared. Role selection is UI simulation, not authentication. No actual institutional submissions or personal records are used. CSV download is functional. Excel ingestion, native XLSX/chart-image exports and server reports remain production tasks.
 
-Sector module tabs demonstrate navigation and category selection using sample values; the individual load profiles, financial accounts and capacity series are conceptual rather than validated statistical models. The building sample uses a fixed fuel allocation solely for layout demonstration. Official ISIC correspondence and all source formulas need stakeholder validation.
+## Data and production limits
 
-## Verification
+The 2024 matrix totals 450 PJ: petroleum 200, biomass 165, coal 35, hydro 35, solar/wind 15. Annual multipliers illustrate 2020-2024 and are not official observations. 1 PJ = 1,000 TJ; 1 GWh = 0.0036 PJ; 1 ktoe = 0.041868 PJ. Emission factors and building benchmarks are synthetic. Official methodologies, datasets and ISIC mapping require SLSEA validation.
 
-JavaScript syntax checked with `node --check dist/app.js`. The included `verify.cjs` checks source/sector aggregation, conversion and rendering of the main role-specific routes without a browser. Hosted desktop browser review confirmed energy flow, pie/doughnut switching, column/bar switching and table rendering, with no captured JavaScript errors. Narrow-device visual QA has not been completed. No claim of tender compliance or production security is made.
+Production authentication/MFA/RBAC, durable data storage, secure Excel uploads, approval-controlled calculations, backups, privacy/data-rights services, monitoring and integrations are not implemented. Performance, concurrency and security compliance must be tested against a real backend; no such compliance is claimed.
 
-## Component design update
+Original tender files are not included in the deployed app. The complete original review is retained in docs/tender-requirements.md.
 
-The shared analytics layer is in `dist/components.js` and `dist/components.css`. Energy flows now use proportional gradient ribbons with keyboard focus and detail panels; source composition supports doughnut and pie modes. Sector modules support grouped columns and horizontal bars. Trends use an area fill and focusable data points. Building charts use segmented stacks. Tables share aligned numeric columns, source tokens, share meters, totals where applicable and consistent status chips. Forms, filters, tabs, notices and dialogs use the same component styles. Chart information is available through pointer hover and keyboard focus, with native titles retained on key SVG marks.
+## Verification performed
+
+- Next.js production static export and strict TypeScript check passed.
+- Five domain tests passed: source/sector reconciliation, baseline and empty intersections, conversions, review guards, and CSV provenance.
+- Desktop browser checks covered light/dark rendering, independent pie/table controls, searched table totals, numeric plausibility feedback, submission, approval, and audit events.
+- Mobile review at a 390px viewport confirmed the navigation sheet and contained chart/table layouts without page-width overflow.
+- No warnings or errors were captured during the browser checks.
