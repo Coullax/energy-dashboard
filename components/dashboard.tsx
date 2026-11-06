@@ -13,6 +13,8 @@ import {
 } from "motion/react";
 import {
   LayoutDashboard,
+  GitBranch,
+  MapPinned,
   ArrowLeftRight,
   Zap,
   Droplets,
@@ -113,6 +115,8 @@ import {
   Legend,
 } from "@/components/energy-charts";
 import { EnergyTable } from "@/components/energy-table";
+import { EnergyAtlas, EnergyTreeExplorer } from "@/components/energy-explorer";
+import { filterRecords, recordCSV } from "@/lib/energy-tree";
 import {
   Table,
   TableHeader,
@@ -151,6 +155,8 @@ import {
 
 const navigation: { id: string; label: string; icon: LucideIcon }[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
+  { id: "tree", label: "Energy tree", icon: GitBranch },
+  { id: "atlas", label: "Sri Lanka atlas", icon: MapPinned },
   { id: "balance", label: "Energy balance", icon: ArrowLeftRight },
   { id: "electricity", label: "Electricity", icon: Zap },
   { id: "petroleum", label: "Petroleum", icon: Droplets },
@@ -398,6 +404,7 @@ export function Dashboard() {
   );
 }
 function DashboardApp() {
+  const [treeDistrict, setTreeDistrict] = useState("");
   const [page, setPage] = useState("overview"),
     [filters, setFilters] = useState<Filters>(initialFilters),
     [role, setRole] = useState<Role>("Viewer"),
@@ -534,6 +541,11 @@ function DashboardApp() {
       ...v,
     ]);
   const exportData = () => {
+    if (page === "tree" || page === "atlas") {
+      downloadFile(`slsea-endpoint-records-${filters.year}.csv`, recordCSV(filterRecords(filters), filters));
+      toast.success("Filtered endpoint records downloaded", { description: "Use Export this branch inside the tree for a narrower selection." });
+      return;
+    }
     let rows: Datum[] = convertRows(sourceRows),
       unit: string = filters.unit;
     if (config) {
@@ -1623,6 +1635,8 @@ function DashboardApp() {
     overview:
       "Explore the supply, transformation and use of energy across Sri Lanka.",
     balance: "Follow energy from its source to the sectors that depend on it.",
+    tree: "Follow percentage shares from national energy sources to anonymous households and sites.",
+    atlas: "Explore district consumption, source mix and underlying records on an interactive 3D map.",
     buildings:
       "Measure building performance and support energy efficiency reporting.",
     emissions: "Trace the factors that connect energy use and emissions.",
@@ -1791,6 +1805,10 @@ function DashboardApp() {
                   ? renderOverview({})
                   : page === "balance"
                     ? renderOverview({ balance: true })
+                    : page === "tree"
+                      ? <EnergyTreeExplorer filters={filters} initialDistrict={treeDistrict} onMap={() => navigate("atlas")} />
+                      : page === "atlas"
+                        ? <EnergyAtlas filters={filters} onExplore={(district) => { setTreeDistrict(district); navigate("tree"); }} />
                     : config
                       ? renderSectorModule()
                       : page === "buildings"

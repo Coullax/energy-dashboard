@@ -347,7 +347,7 @@ export function MixChart({ data, unit }: { data: Datum[]; unit: string }) {
                   {r.name}
                 </span>
                 <b>
-                  {sum ? format((r.value / sum) * 100, 0) : 0}
+                  {sum ? format((r.value / sum) * 100, 1) : 0}
                   <small>%</small>
                 </b>
               </div>

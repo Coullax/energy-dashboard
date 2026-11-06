@@ -43,7 +43,7 @@ The lockfile records resolved package versions. Only libraries used by this appl
 ## Source map
 
 - app/: Next.js entry points and theme styles.
-- components/dashboard.tsx: 13 screens, filters, search, reports and demonstration workflows.
+- components/dashboard.tsx: 15 screens, filters, search, reports and demonstration workflows.
 - components/energy-charts.tsx: React charts and animated energy-flow SVG.
 - components/energy-table.tsx: TanStack and shadcn data table.
 - components/ui/: editable shadcn/ui component source.
@@ -65,7 +65,7 @@ The lockfile records resolved package versions. Only libraries used by this appl
 9. Choose report sections, preview the report, then Print / Save as PDF. CSV downloads include unit, period, filters and source metadata.
 10. Toggle light/dark mode. Motion respects the device's reduced-motion setting.
 
-Drafts, decisions, audit events and the sample coefficient persist in this tab's sessionStorage and reset when the session is cleared. Role selection is UI simulation, not authentication. No actual institutional submissions or personal records are used. CSV download is functional. Excel ingestion, native XLSX/chart-image exports and server reports remain production tasks.
+Drafts, decisions, audit events and the sample coefficient persist in this tab's sessionStorage and reset when the session is cleared. Role selection is UI simulation, not authentication. No actual institutional submissions or personal records are used. CSV download is functional. The downloadable energy-tree XLSX is functional. Excel ingestion, general-purpose XLSX/chart-image exports and server reports remain production tasks.
 
 ## Data and production limits
 
@@ -82,3 +82,15 @@ Original tender files are not included in the deployed app. The complete origina
 - Desktop browser checks covered light/dark rendering, independent pie/table controls, searched table totals, numeric plausibility feedback, submission, approval, and audit events.
 - Mobile review at a 390px viewport confirmed the navigation sheet and contained chart/table layouts without page-width overflow.
 - No warnings or errors were captured during the browser checks.
+
+## Energy tree and district atlas
+
+Open /#tree for source-first or location-first drilldowns to anonymous household/meter, facility/site or fleet endpoints. Every branch shows its energy, share of its parent and share of the filtered national total. CSV exports contain the underlying observations. Open /#atlas for a Three.js district map: drag to orbit, zoom, select districts, compare consumption or renewable share, and drill into a district tree. A selectable SVG 2D view and district buttons provide alternatives to WebGL. Height represents allocated final consumption, not terrain or generation.
+
+The shared 2024 sample contains 1,050 source observations across 25 districts and 300 unique representative endpoints. Illustrative district weights and 50/30/20 endpoint allocations preserve the original 450 PJ matrix. These scaled values are not realistic individual meter readings or official statistics. Annual multipliers are demonstrations; all tree/map totals use the global source, sector, year and unit filters. Endpoint records reside in lib/energy-tree-data.json.
+
+public/data/Sri_Lanka_Energy_Tree.xlsx contains Overview, Energy Tree, Location Tree and Records sheets, native expandable outline groups, editable energy inputs, formulas, parent/total percentages and native charts. It is a standalone 2024 sample workbook; app filters do not rewrite this download.
+
+Boundary geometry is geoBoundaries gbOpen Sri Lanka ADM2 (2017 representation), attributed to OpenStreetMap / Wambacher, ODbL 1.0. Reference: https://www.geoboundaries.org/api/current/gbOpen/LKA/ADM2/. License and provenance accompany the GeoJSON in public/data/BOUNDARY-LICENCE.txt. No exact endpoint locations are plotted.
+
+Three additional domain tests verify filtered matrix reconciliation, hierarchy conservation and unique endpoint identities. The Excel builder also verifies an input edit propagates through both trees and the overview; cached totals, formulas, outlines and charts are inspected after export.

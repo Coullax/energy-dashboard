@@ -12,6 +12,8 @@ const types = {
   ".js": "text/javascript; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".json": "application/json",
+  ".geojson": "application/geo+json",
+  ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   ".svg": "image/svg+xml",
   ".png": "image/png",
   ".ico": "image/x-icon",
